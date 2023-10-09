@@ -1,0 +1,5 @@
+{% macro nav_link(current, target, label) %}
+    <li class="nav-item">
+        <a class="nav-link{{ current == target ? ' active' }}" href="{{ path(target) }}">{{ label }}</a>
+    </li>
+{% endmacro %}

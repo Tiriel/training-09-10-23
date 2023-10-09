@@ -13,7 +13,7 @@
     <body>
     <header>
         {% block navbar %}
-            {{ include('includes/_navbar.html.twig', with_context = false) }}
+            {{ include('includes/_navbar.html.twig', {current: app.current_route}, with_context = false) }}
         {% endblock %}
     </header>
     <main>
