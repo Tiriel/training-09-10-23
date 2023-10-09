@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HelloController extends AbstractController
 {
-    #[Route('/hello/{name}', name: 'app_hello_index', requirements: ['name' => '(?:\pL|[- ])+'], defaults: ['name' => 'World'])]
+    #[Route('/hello/{name}', name: 'app_hello_index', requirements: ['name' => '(?:\pL|[- ])+'], defaults: ['name' => 'World'], methods: ['GET', 'POST'])]
     public function index(string $name): Response
     {
         return $this->render('hello/index.html.twig', [
