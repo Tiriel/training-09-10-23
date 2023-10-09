@@ -36,4 +36,20 @@ class MovieController extends AbstractController
             'movie' => $movie,
         ]);
     }
+
+    public function lastMovies(): Response
+    {
+        $movies = [
+            ['title' => 'Movie 1'],
+            ['title' => 'Movie 2'],
+            ['title' => 'Movie 3'],
+            ['title' => 'Movie 4'],
+            ['title' => 'Movie 5'],
+            ['title' => 'Movie 6'],
+        ];
+
+        return $this->render('includes/_last_movies.html.twig', [
+            'movies' => $movies,
+        ])->setTtl(3600);
+    }
 }

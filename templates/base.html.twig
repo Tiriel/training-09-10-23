@@ -16,6 +16,13 @@
             {{ include('includes/_navbar.html.twig', with_context = false) }}
         {% endblock %}
     </header>
+    <main>
+        <section>
         {% block body %}{% endblock %}
+        </section>
+        <aside>
+            {{ render_esi(controller('App\\Controller\\MovieController::lastMovies')) }}
+        </aside>
+    </main>
     </body>
 </html>
