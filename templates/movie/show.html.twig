@@ -7,13 +7,13 @@
         {% if movie is not empty %}
             <h1 class="pb-5">{{ movie.title }}</h1>
 
-{#            <img class="float-end" src="{{ movie.poster }}" alt="{{ movie.title }} poster">#}
+            <img class="float-end" src="{{ movie.poster }}" alt="{{ movie.title }} poster">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Id : {{ movie.id }}</li>
                 <li class="list-group-item">Released At : {{ movie.releasedAt|date('d M Y') }}</li>
                 <li class="list-group-item">Country : {{ movie.country }}</li>
                 <li class="list-group-item">Plot : {{ movie.plot }}</li>
-                <li class="list-group-item">Genres : {{ movie.genres|join(', ') }}</li>
+{#                <li class="list-group-item">Genres : {{ movie.genres|join(', ') }}</li>#}
             </ul>
         {% else %}
             <h1>Movie not found.</h1>
