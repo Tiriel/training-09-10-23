@@ -13,7 +13,7 @@ class MovieController extends AbstractController
     public function index(): Response
     {
         return $this->render('movie/index.html.twig', [
-            'controller_name' => 'MovieController::index',
+            'movies' => []
         ]);
     }
 
@@ -25,6 +25,7 @@ class MovieController extends AbstractController
             'title' => 'Star Wars - Episode IV : A New Hope',
             'country' => 'United States',
             'releasedAt' => new \DateTimeImmutable('25-05-1977'),
+            'plot' => 'Incoming',
             'genres' => [
                 'Action',
                 'Adventure',

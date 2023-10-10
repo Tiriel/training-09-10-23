@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book {{ book.title ?? 'Not found' }}{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    {% if book is not empty %}
+    <h1 class="pb-5">{{ book.title }}</h1>
+
+    <img class="float-end" src="{{ book.cover }}" alt="{{ book.title }} cover">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Id : {{ book.id }}</li>
+        <li class="list-group-item">author : {{ book.author }}</li>
+        <li class="list-group-item">ISBN : {{ book.isbn }}</li>
+        <li class="list-group-item">Released At : {{ book.releasedAt|date('d M Y') }}</li>
+        <li class="list-group-item">Plot : {{ book.plot }}</li>
+        <li class="list-group-item">Editor : {{ book.editor }}</li>
+    </ul>
+    {% else %}
+        <h1>Book not found.</h1>
+    {% endif %}
+</div>
+{% endblock %}

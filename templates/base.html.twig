@@ -14,15 +14,16 @@
     </head>
     <body>
     <header>
+        {% block header '' %}
         {% block navbar %}
             {{ include('includes/_navbar.html.twig', {current: app.current_route}, with_context = false) }}
         {% endblock %}
     </header>
-    <main class="container m-auto pt-5">
-        <section>
+    <main class="container-fluid m-auto pt-5 row">
+        <section class="offset-2 col-md-8">
         {% block body %}{% endblock %}
         </section>
-        <aside>
+        <aside class="col-md-2">
             {{ render_esi(controller('App\\Controller\\MovieController::lastMovies')) }}
         </aside>
     </main>
