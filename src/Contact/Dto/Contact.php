@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Contact
 {
     public function __construct(
-        #[Assert\NotBlank()]
+        #[Assert\NotBlank(message: 'Your name cannot be blank')]
         private ?string $name = null,
         #[Assert\Email()]
         private ?string $email = null,
