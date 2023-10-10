@@ -36,13 +36,13 @@ class MovieFixtures extends Fixture
                 //->setImdbId($datum['imdbID'])
             ;
 
-            //foreach (explode(', ', $datum['Genre']) as $genreName) {
-            //    $genre = \array_key_exists($genreName, $genres)
-            //        ? $genres[$genreName]
-            //        : $genres[$genreName] = (new Genre())->setName($genreName);
-            //
-            //    $movie->addGenre($genre);
-            //}
+            foreach (explode(', ', $datum['Genre']) as $genreName) {
+                $genre = \array_key_exists($genreName, $genres)
+                    ? $genres[$genreName]
+                    : $genres[$genreName] = (new Genre())->setName($genreName);
+
+                $movie->addGenre($genre);
+            }
 
             yield $movie;
         }

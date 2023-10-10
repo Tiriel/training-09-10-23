@@ -13,7 +13,8 @@
                 <li class="list-group-item">Released At : {{ movie.releasedAt|date('d M Y') }}</li>
                 <li class="list-group-item">Country : {{ movie.country }}</li>
                 <li class="list-group-item">Plot : {{ movie.plot }}</li>
-{#                <li class="list-group-item">Genres : {{ movie.genres|join(', ') }}</li>#}
+                <li class="list-group-item">Genres : {{ movie.genres|map(genre => genre.name)|join(', ') }}</li>
+{#                <li class="list-group-item">Genres reduced : {{ movie.genres|reduce((carry, genre) => carry != '' ? carry ~ ', ' ~ genre.name : genre.name) }}</li>#}
             </ul>
         {% else %}
             <h1>Movie not found.</h1>
