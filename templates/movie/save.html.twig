@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% set title = movie.id is not null ? 'Edit Movie' : 'New Movie' %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
-    <h1 class="text-center">Contact us</h1>
+    <h1 class="pb-5">{{ title }}</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

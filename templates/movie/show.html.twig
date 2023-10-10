@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="example-wrapper">
-        {% if movie is not empty %}
+        {% if movie is not null %}
             <h1 class="pb-5">{{ movie.title }}</h1>
 
             <img class="float-end" src="{{ movie.poster }}" alt="{{ movie.title }} poster">

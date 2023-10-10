@@ -5,12 +5,13 @@ namespace App\Contact\Dto;
 class Contact
 {
     public function __construct(
-        private string $name,
-        private string $email,
-        private string $subject,
-        private string $message,
+        private ?string $name = null,
+        private ?string $email = null,
+        private ?string $subject = null,
+        private ?string $message = null,
         private ?\DateTimeImmutable $createdAt = null,
-    ) {}
+    ) {
+    }
 
     public function getName(): string
     {
