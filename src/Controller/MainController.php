@@ -6,6 +6,7 @@ use App\Contact\Dto\Contact;
 use App\Form\ContactType;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,13 +20,19 @@ class MainController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'app_main_contact', methods: ['GET'])]
-    public function contact(): Response
+    #[Route('/contact', name: 'app_main_contact', methods: ['GET', 'POST'])]
+    public function contact(Request $request): Response
     {
         $dto = new Contact();
         $form = $this->createForm(ContactType::class, $dto);
 
-        $dto->setCreatedAt(new \DateTimeImmutable());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dto->setCreatedAt(new \DateTimeImmutable());
+            dump($dto);
+
+            return $this->redirectToRoute('app_main_contact');
+        }
 
         return $this->render('main/contact.html.twig', [
             'form' => $form,

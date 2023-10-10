@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/movie')]
 class MovieController extends AbstractController
@@ -21,8 +24,13 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id<\d+>}', name: 'app_movie_show', methods: ['GET'])]
-    public function show(?Movie $movie): Response
+    public function show(?Movie $movie, ValidatorInterface $validator): Response
     {
+        $errors = $validator->validate($movie);
+        if (\count($errors) > 0) {
+            //
+        }
+
         return $this->render('movie/show.html.twig', [
             'movie' => $movie,
         ]);
@@ -30,10 +38,18 @@ class MovieController extends AbstractController
 
     #[Route('/new', name: 'app_movie_new', methods: ['GET', 'POST'])]
     #[Route('/{id<\d+>}/edit', name: 'app_movie_edit', methods: ['GET', 'POST'])]
-    public function save(?Movie $movie = null): Response
+    public function save(Request $request, EntityManagerInterface $manager, ?Movie $movie = null): Response
     {
         $movie ??= new Movie();
         $form = $this->createForm(MovieType::class, $movie);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($movie);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_movie_show', ['id' => $movie->getId()]);
+        }
 
         return $this->render('movie/save.html.twig', [
             'form' => $form,
