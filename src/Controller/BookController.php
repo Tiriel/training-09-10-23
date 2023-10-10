@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,10 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     #[Route('', name: 'app_book_index')]
-    public function index(): Response
+    public function index(BookRepository $repository): Response
     {
+        $books = $repository->findBy([], ['id' => 'DESC'], 9);
+        $total = $repository->count([]);
+
         return $this->render('book/index.html.twig', [
-            'books' => []
+            'books' => $books,
+            'total' => $total,
         ]);
     }
 
@@ -23,10 +28,10 @@ class BookController extends AbstractController
         methods: ['GET'],
         //condition: "request.isXmlHttpRequest()"
     )]
-    public function show(int $id = 1): Response
+    public function show(BookRepository $repository, int $id = 1): Response
     {
         return $this->render('book/show.html.twig', [
-            'book' => []
+            'book' => $repository->find($id),
         ]);
     }
 }
