@@ -57,6 +57,7 @@ class MovieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($movie);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_movie_index', [], Response::HTTP_SEE_OTHER);
