@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\Comment;
+use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,28 +42,14 @@ class BookController extends AbstractController
     #[Route('/new', name: 'app_book_new', methods: ['GET', 'POST'])]
     public function new(EntityManagerInterface $manager): Response
     {
-        $books = $manager->getRepository(Book::class)->findAll();
-        $book = (new Book())
-            ->setTitle('1984')
-            ->setAuthor('G. Orwell')
-            ->setReleasedAt(new \DateTimeImmutable('01-01-1956'))
-            ->setIsbn('931-132656-32')
-            ->setCover('http://blah')
-            ->setEditor('Whatever')
-            ->setPlot('Just about now')
-            ;
+        $book = new Book();
+        $form = $this->createForm(BookType::class, $book);
 
-        $comment = (new Comment())
-            ->setEmail('me@me.com')
-            ->setName('Myself')
-            ->setContent('This book is too real')
-            ->setCreatedAt(new \DateTimeImmutable())
-            ;
-        $book->addComment($comment);
+        //$manager->persist($book);
+        //$manager->flush();
 
-        $manager->persist($book);
-        $manager->flush();
-
-        return $this->render('book/new.html.twig');
+        return $this->render('book/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
