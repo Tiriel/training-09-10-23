@@ -19,8 +19,6 @@ class OmdbToMovieTransformer implements TransformerInterface
         'Rated',
     ];
 
-    public function __construct(private readonly OmdbToGenreTransformer $transformer) {}
-
     public function transform(mixed $value): mixed
     {
         if (!is_array($value) || \count(array_diff(self::KEYS, array_keys($value))) > 0) {
@@ -37,10 +35,6 @@ class OmdbToMovieTransformer implements TransformerInterface
             ->setPoster($value['Poster'])
             ->setPrice(5.0)
         ;
-
-        foreach (explode(', ', $value['Genre']) as $name) {
-            $movie->addGenre($this->transformer->transform($name));
-        }
 
         return $movie;
     }

@@ -6,12 +6,12 @@ use App\Entity\Movie;
 use App\Movie\Search\OmdbApiConsumer;
 use App\Movie\Search\SearchTypes;
 use App\Movie\Search\Transformer\OmdbToMovieTransformer;
-use App\Repository\MovieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MovieProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly MovieRepository $repository,
+        private readonly EntityManagerInterface $manager,
         private readonly OmdbApiConsumer $consumer,
         private readonly OmdbToMovieTransformer $transformer,
         private readonly GenreProvider $genreProvider,
@@ -19,12 +19,22 @@ class MovieProvider implements ProviderInterface
 
     public function getOne(string $value, SearchTypes $type = SearchTypes::Title): Movie
     {
-        // call omdb to get array data
-        // check if exists in database
-            // if yes, return entity
-        // if no build movie object
-        // add Genres
-        // save in database
-        // return movie
+        $data = $this->consumer->fetchMovie($type, $value);
+
+        if ($movie = $this->manager->getRepository(Movie::class)->findOneBy(['title' => $data['Title']])) {
+            return $movie;
+        }
+
+        /** @var Movie $movie */
+        $movie = $this->transformer->transform($data);
+
+        foreach ($this->genreProvider->getFromOmdbString($data['Genre']) as $genre) {
+            $movie->addGenre($genre);
+        }
+
+        $this->manager->persist($movie);
+        $this->manager->flush();
+
+        return $movie;
     }
 }
