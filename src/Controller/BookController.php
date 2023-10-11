@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Book\BookManager;
 use App\Entity\Book;
 use App\Entity\Comment;
 use App\Form\BookType;
@@ -33,10 +34,10 @@ class BookController extends AbstractController
         methods: ['GET'],
         //condition: "request.isXmlHttpRequest()"
     )]
-    public function show(BookRepository $repository, int $id = 1): Response
+    public function show(BookManager $manager, int $id = 1): Response
     {
         return $this->render('book/show.html.twig', [
-            'book' => $repository->find($id),
+            'book' => $manager->getByTitle($id),
         ]);
     }
 
