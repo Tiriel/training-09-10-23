@@ -3,12 +3,15 @@
 namespace App\Movie\Search;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OmdbApiConsumer
 {
+    public function __construct(private readonly HttpClientInterface $omdbClient) {}
+
     public function fetchMovie(SearchTypes $type, string $value): iterable
     {
-        $data = $this->client->request(
+        $data = $this->omdbClient->request(
             'GET',
             '',
             [

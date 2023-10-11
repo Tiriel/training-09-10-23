@@ -42,7 +42,7 @@ class MovieController extends AbstractController
     public function omdb(string $title, OmdbApiConsumer $consumer): Response
     {
         dd($consumer->fetchMovie(SearchTypes::Title, $title));
-        
+
         return $this->render('movie/show.html.twig', [
             'movie' => $movie,
         ]);
