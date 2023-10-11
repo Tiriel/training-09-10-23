@@ -10,7 +10,9 @@
             <img class="float-end" src="{{ movie.poster }}" alt="{{ movie.title }} poster">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Id : {{ movie.id }}</li>
+                <li class="list-group-item">IMDb ID : {{ movie.imdbId }}</li>
                 <li class="list-group-item">Released At : {{ movie.releasedAt|date('d M Y') }}</li>
+                <li class="list-group-item">Rated : {{ movie.rated }}</li>
                 <li class="list-group-item">Country : {{ movie.country }}</li>
                 <li class="list-group-item">Plot : {{ movie.plot }}</li>
                 <li class="list-group-item">Genres : {{ movie.genres|map(genre => genre.name)|join(', ') }}</li>

@@ -19,8 +19,11 @@ class OmdbApiConsumer
             ]
         )->toArray();
 
-        if (array_key_exists('Error', $data) && $data['Error'] === 'Movie not found!') {
-            throw new NotFoundHttpException('Movie not found!');
+        if (array_key_exists('Error', $data)) {
+            if ($data['Error'] === 'Movie not found!') {
+                throw new NotFoundHttpException('Movie not found!');
+            }
+            throw new \RuntimeException("Error while getting data.");
         }
 
         return $data;
