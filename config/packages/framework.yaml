@@ -9,7 +9,7 @@ framework:
             omdb_client:
                 base_uri: 'http://www.omdbapi.com'
                 query:
-                    apikey: '77e9a2a5'
+                    apikey: '%env(string:API_KEY)%'
                     plot: full
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
