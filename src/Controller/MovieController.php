@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\User;
 use App\Form\MovieType;
 use App\Movie\Search\Provider\MovieProvider;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +33,7 @@ class MovieController extends AbstractController
         if (\count($errors) > 0) {
             //
         }
+        $this->denyAccessUnlessGranted(MovieVoter::RATED, $movie);
 
         return $this->render('movie/show.html.twig', [
             'movie' => $movie,
@@ -49,11 +52,17 @@ class MovieController extends AbstractController
     #[Route('/{id<\d+>}/edit', name: 'app_movie_edit', methods: ['GET', 'POST'])]
     public function save(Request $request, EntityManagerInterface $manager, ?Movie $movie = null): Response
     {
+        if ($movie) {
+            $this->denyAccessUnlessGranted(MovieVoter::EDIT, $movie);
+        }
         $movie ??= new Movie();
         $form = $this->createForm(MovieType::class, $movie);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$movie->getId() && ($user = $this->getUser()) instanceof User) {
+                $movie->setCreatedBy($user);
+            }
             $manager->persist($movie);
             $manager->flush();
 
