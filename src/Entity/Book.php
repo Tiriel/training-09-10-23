@@ -43,6 +43,9 @@ class Book
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Comment::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\ManyToOne]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -163,6 +166,18 @@ class Book
                 $comment->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

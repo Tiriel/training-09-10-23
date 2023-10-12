@@ -4,6 +4,21 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
+    role_hierarchy:
+        ROLE_USER: ~
+        ROLE_COMMENT: ROLE_USER
+        ROLE_EDITOR: ROLE_USER
+        ROLE_MODERATOR: ROLE_COMMENT
+        ROLE_ADMIN:
+            - ROLE_MODERATOR
+            - ROLE_EDITOR
+
+    access_decision_manager:
+        allow_if_all_abstain: false
+        allow_if_equal_granted_denied: false
+        strategy: affirmative # priority, consensus, unanimous
+
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
@@ -42,7 +57,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED }
         - { path: ^/admin, roles: ROLE_ADMIN }
 #        - { path: ^/profile, allow_if: "request.headers.get('X-Custom-Header') == 'foo'" }
