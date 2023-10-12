@@ -9,5 +9,13 @@
             {{ nav_link(current, 'app_book_index', 'Book') }}
             {{ nav_link(current, 'app_main_contact', 'Contact') }}
         </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% if app.user %}
+                {{ nav_link(current, 'app_security_logout', 'Logout') }}
+            {% else %}
+                {{ nav_link(current, 'app_security_login', 'Login') }}
+                {{ nav_link(current, 'app_security_register', 'Register') }}
+            {% endif %}
+        </ul>
     </div>
 </nav>

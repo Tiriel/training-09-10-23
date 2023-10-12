@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/book')]
 class BookController extends AbstractController
@@ -41,6 +42,7 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/new', name: 'app_book_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
