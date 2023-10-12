@@ -44,6 +44,9 @@ class Movie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imdbId = null;
 
+    #[ORM\ManyToOne]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
@@ -170,6 +173,18 @@ class Movie
     public function setImdbId(?string $imdbId): static
     {
         $this->imdbId = $imdbId;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
